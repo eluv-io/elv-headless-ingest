@@ -1,0 +1,11 @@
+# ignore IDE project metadata
+.idea/
+
+# ignore Mac OS X folder metadata
+**.DS_STORE
+
+# any file can be ignored by naming it *.ignore.*, e.g. TempTest.ignore.js
+**.ignore.*
+
+# exclude installed NPM packages
+node_modules/
