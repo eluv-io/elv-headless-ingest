@@ -123,7 +123,7 @@ class Ingest {
       access
     });
 
-    await this.MonitorJobStatus({
+    const finalizeResponse = await this.MonitorJobStatus({
       libraryId,
       objectId: abrMezResponse.id,
       writeToken: jobResponse.writeToken,
@@ -131,6 +131,11 @@ class Ingest {
       description,
       accessGroupAddress
     });
+
+    return {
+      id: masterObjectId,
+      hash: finalizeResponse.hash
+    };
   }
 
   WaitForPublish = async function ({hash, objectId}) {
@@ -532,6 +537,7 @@ class Ingest {
     let done;
     let errorState;
     let statusIntervalId;
+    let finalizeResponse;
     while(!done && !errorState) {
       let status;
       try {
@@ -596,7 +602,7 @@ class Ingest {
             throw error;
           }
 
-          await this.FinalizeABRMezzanine({
+          finalizeResponse = await this.FinalizeABRMezzanine({
             libraryId,
             objectId
           });
@@ -616,6 +622,8 @@ class Ingest {
 
       await new Promise(resolve => setTimeout(resolve, 15000));
     }
+
+    return finalizeResponse;
   };
 
 
