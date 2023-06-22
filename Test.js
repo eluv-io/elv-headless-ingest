@@ -1,17 +1,23 @@
-const { ElvClient } = require("@eluvio/elv-client-js");
+const {Ingest} = require("./src/Ingest");
 
 const Test = async () => {
   try {
-    const client = await ElvClient.FromNetworkName({
-      networkName: "demo" // "main" | "demo" | "test"
-    });
-
-    const wallet = client.GenerateWallet();
-    const signer = wallet.AddAccount({
+    const ingestClient = await Ingest.Initialize({
+      networkName: "demo",
       privateKey: process.env.PRIVATE_KEY
     });
 
-    client.SetSigner({signer});
+    const libraryId = "";
+    const contentType = "";
+    const filePaths = [""];
+    const title = "";
+
+    await ingestClient.IngestMedia({
+      libraryId,
+      contentType,
+      files: filePaths,
+      title
+    });
   } catch(error) {
     console.error(error);
     console.error(JSON.stringify(error, null, 2));
